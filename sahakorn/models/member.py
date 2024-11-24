@@ -10,7 +10,7 @@ class Member(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    produce_type = models.ForeignKey(ProducerType, on_delete=models.CASCADE)
+    produce_type = models.ManyToManyField(ProducerType)
 
     def __str__(self) -> str:
         return self.name

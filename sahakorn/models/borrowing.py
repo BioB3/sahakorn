@@ -5,6 +5,15 @@ from .member import Member
 
 class Borrowing(models.Model):
     """Models to record equipment borrowing"""
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q(
+                    r_date__gte=models.F("s_date")
+                ),
+                name="equipment must be return after borrowing date.",
+            )
+        ]
 
     equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
     user = models.ForeignKey(Member, on_delete=models.CASCADE)
