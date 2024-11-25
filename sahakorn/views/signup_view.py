@@ -1,8 +1,13 @@
-from rest_framework.views import APIView
 from rest_framework import permissions
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
+from sahakorn.models import Member
 
+
+@method_decorator(csrf_protect, name="dispatch")
 class SignupView(APIView):
     permission_classes = (permissions.AllowAny, )
 
@@ -14,11 +19,14 @@ class SignupView(APIView):
         re_password = data["re_password"]
 
         if password != re_password:
-            return HttpResponse({"error": "Passwords do not match"})
+            return Response({"error": "Passwords do not match"})
         if User.objects.filter(username=username).exists():
-            return HttpResponse({"error": "Username already exists"})
+            return Response({"error": "Username already exists"})
         if len(password) < 6:
-            return HttpResponse({"error": "Password must be at least 6 characters"})
+            return Response({"error": "Password must be at least 6 characters"})
         user = User.objects.create_user(username=username, password=password)
         user.save()
-    
+        user = User.objects.get(id=user.id)
+        member = Member.objects.create(user=user, name=username)
+        member.save()
+        return Response({"success": "User created successfully"})
