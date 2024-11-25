@@ -2,12 +2,9 @@ from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_protect
 from sahakorn.models import Member
 
 
-@method_decorator(csrf_protect, name="dispatch")
 class SignupView(APIView):
     permission_classes = (permissions.AllowAny, )
 

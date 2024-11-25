@@ -1,7 +1,8 @@
 import ตอบสนอง, { ใช้สถานะ } from "react-but-thai"
-import { redirect } from "react-router-dom";
+import { useNavigate, Link as ลิงค์ } from "react-router-dom"
 import { connect } from 'react-redux'
 import { register } from '../actions/auth'
+import CSRFToken from '../components/CSRFToken'
 
 function ลงทะเบียน({ register }) {
   const [formData, setFormData] = ใช้สถานะ({
@@ -13,6 +14,8 @@ function ลงทะเบียน({ register }) {
   const [accountCreated, setAccountCreated] = ใช้สถานะ(false);
 
   const { username, password, re_password } = formData
+
+  const navigate = useNavigate();
 
   function onChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -27,7 +30,7 @@ function ลงทะเบียน({ register }) {
   };
 
   if (accountCreated) {
-    return <redirect to='/' />;
+    navigate('/login');
   }
 
   return (
@@ -35,6 +38,7 @@ function ลงทะเบียน({ register }) {
       <div className="container mt-5">
         <h1>Register for an Account</h1>
         <form onSubmit={e => onSubmit(e)}>
+          <CSRFToken />
           <label className="form-control w-full max-w-xs">
             <div className="label">
               <span className="label-text">Username: </span>
@@ -84,7 +88,7 @@ function ลงทะเบียน({ register }) {
           <button className="btn btn-primary" type="submit">Register</button>
         </form>
         <p className="mt-3">
-          Already have an Account? <Link to='login'>Sign In</Link>
+          Already have an Account? <ลิงค์ to='/login'>Sign In</ลิงค์>
         </p>
       </div>
     </>
