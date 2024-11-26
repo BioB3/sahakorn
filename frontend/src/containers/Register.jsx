@@ -1,4 +1,4 @@
-import ตอบสนอง, { ใช้สถานะ } from "react-but-thai"
+import ตอบสนอง, { ใช้สถานะ, ใช้ผลกระทบ } from "react-but-thai"
 import { useNavigate, Link as ลิงค์ } from "react-router-dom"
 import { connect } from 'react-redux'
 import { register } from '../actions/auth'
@@ -29,11 +29,13 @@ function ลงทะเบียน({ register, isAuthenticated }) {
     }
   };
 
-  if (isAuthenticated) {
-    navigate('/profile');
-  } else if (accountCreated) {
-    navigate('/login');
-  }
+  ใช้ผลกระทบ(() => {
+    if (isAuthenticated) {
+      navigate('/profile');
+    } else if (accountCreated) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, accountCreated, navigate]);
 
   return (
     <>

@@ -1,9 +1,10 @@
 import ตอบสนอง, { ใช้สถานะ, ใช้ผลกระทบ } from "react-but-thai"
 import { connect } from "react-redux"
 import { updateProfile } from "../actions/profile";
+import { deleteAccount } from "../actions/auth";
 import CSRFToken from "../components/CSRFToken";
 
-function ประวัติโดยย่อ({ updateProfile, name_global}) {
+function ประวัติโดยย่อ({ deleteAccount, updateProfile, name_global}) {
   const [profileUpdated, setProfileUpdated] = ใช้สถานะ(false);
   const [formData, setFormData] = ใช้สถานะ({
     name: ''
@@ -23,8 +24,13 @@ function ประวัติโดยย่อ({ updateProfile, name_global}) 
 
   function onSubmit(e) {
     e.preventDefault();
-    updateProfile(name);
-    setProfileUpdated(!profileUpdated);
+
+    const update_profile = async() => {
+      await updateProfile(name);
+      setProfileUpdated(!profileUpdated);
+    };
+
+    update_profile();
   };
 
   return (
@@ -48,6 +54,7 @@ function ประวัติโดยย่อ({ updateProfile, name_global}) 
           </label>
           <button className="btn btn-primary" type="submit">Update</button>
         </form>
+        <a className="btn btn-error mt-3" href='#' onClick={deleteAccount}>Delete Account</a>
       </div>
     </>
   )
@@ -57,4 +64,4 @@ const mapStateToProps = state => ({
   name_global: state.profile.name
 })
 
-export default connect(mapStateToProps, { updateProfile })(ประวัติโดยย่อ)
+export default connect(mapStateToProps, { deleteAccount, updateProfile })(ประวัติโดยย่อ)

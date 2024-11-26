@@ -6,5 +6,5 @@ from django.contrib.auth.models import User
 class DeleteAccountView(APIView):
     def delete(self, request, format=None):
         user = self.request.user
-        user = User.objects.filter(id=user.id).delete()
+        User.objects.filter(id=user.id).delete()
         return Response({"success": "User deleted successfully"})

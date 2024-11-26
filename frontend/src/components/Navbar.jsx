@@ -7,6 +7,15 @@ function แถบนำทาง({ isAuthenticated, logout }) {
   const authLinks = (
     <ชิ้นส่วน>
       <li>
+        <ลิงค์นำทาง className="btn-ghost text-xl" to="/equipment">Equipments</ลิงค์นำทาง>
+      </li>
+      <li>
+        <ลิงค์นำทาง className="btn-ghost text-xl" to="/market">Market</ลิงค์นำทาง>
+      </li>
+      <li>
+        <ลิงค์นำทาง className="btn-ghost text-xl" to="/loans">Loans</ลิงค์นำทาง>
+      </li>
+      <li>
         <ลิงค์นำทาง className="btn-ghost text-xl" to="/profile">Profile</ลิงค์นำทาง>
       </li>
       <li>

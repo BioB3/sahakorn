@@ -9,7 +9,9 @@ import {
   LOGOUT_SUCCESS,
   LOGOUT_FAIL,
   AUTHENTICATED_SUCCESS,
-  AUTHENTICATED_FAIL
+  AUTHENTICATED_FAIL,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAIL
 } from './types'
 
 export const login = (username, password) => async dispatch => {
@@ -52,7 +54,7 @@ export const logout = () => async dispatch => {
     }
   };
 
-  const body = JSON.stringify({'withCredentials': true})
+  const body = JSON.stringify({'withCredentials': true});
 
   try {
     const res = await axios.post(`${import.meta.env.VITE_API_URL}/sahakorn/logout`, body, config);
@@ -130,6 +132,35 @@ export const checkAuthenticated = () => async dispatch => {
     dispatch({
       type: AUTHENTICATED_FAIL,
       payload: false
+    });
+  }
+}
+
+export const deleteAccount = () => async dispatch => {
+  const config = {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': Cookies.get('csrftoken')
+    }
+  };
+
+  const body = JSON.stringify({'withCredentials': true});
+
+  try{
+      res = await axios.delete(`${import.meta.env.VITE_API_URL}/sahakorn/delete`, body, config);
+      if (res.data.success) {
+        dispatch({
+          type: DELETE_USER_SUCCESS
+        });
+      } else {
+        dispatch({
+          type: DELETE_USER_FAIL
+        });
+      }
+  } catch (err) {
+    dispatch({
+      type: DELETE_USER_FAIL
     });
   }
 }

@@ -8,7 +8,9 @@ import บ้าน from './containers/Home'
 import ลงทะเบียน from './containers/Register'
 import เข้าสู่ระบบ from './containers/Login'
 import ประวัติโดยย่อ from './containers/Profile'
+import ตลาด from './containers/Market'
 import อุปกรณ์ from './containers/equipment'
+import เงินกู้ from './containers/Loans'
 
 import { Provider } from 'react-redux'
 import store from './store'
@@ -24,6 +26,8 @@ function แอป() {
             <เส้นทาง path='login' element={<เข้าสู่ระบบ />} />
             <เส้นทาง path='profile' element={<ประวัติโดยย่อ />} />
             <เส้นทาง path='equipment' element={<อุปกรณ์ />} />
+            <เส้นทาง path='market' element={<ตลาด />} />
+            <เส้นทาง path='loans' element={<เงินกู้ />} />
           </เส้นทางหลาย>
         </เค้าโครง>
       </เราเตอร์>
