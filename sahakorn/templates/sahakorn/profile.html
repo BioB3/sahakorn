@@ -1,0 +1,60 @@
+{% extends 'sahakorn/base.html' %}
+
+{% block headcontent %}
+<title>
+  Profile
+</title>
+{% load static %}
+<script src="{% static 'sahakorn/profile.js' %}" defer type="module"></script>
+{% endblock %}
+
+
+{% block content %}
+  <div class="container mx-auto px-4 py-6">
+    <h1 class="text-4xl font-semibold mb-6">Profile</h1>
+
+    <p class="text-xl mb-4"><strong>Displayed Name: </strong><span id="profileName">{{ profile.name }}</span></p>
+
+    <p class="text-xl mb-4"><strong>Produce Type(s):</strong>
+      {% if profile.produce_type.all %}
+        <div class="flex flex-wrap gap-4 mt-4">
+          {% for produce in profile.produce_type.all %}
+            <div class="badge" style="background-color: {{ produce.color }}; color: white; padding: 10px 15px; border-radius: 12px;">
+              {{ produce.name }}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No produce type assigned.</p>
+      {% endif %}
+    </p>
+
+    <button class="btn btn-primary mt-6" onclick="profileModal.showModal()">Update Profile</button>
+
+    <dialog id="profileModal" class="modal">
+      <div class="modal-box">
+        <h2 class="text-xl font-bold">Update Your Profile</h2>
+        <form id="updateProfileForm">
+          <div class="mb-4">
+            <label for="name" class="block">Name:</label>
+            <input type="text" id="name" name="name" value="{{ profile.name }}" class="input input-bordered w-full">
+          </div>
+
+          <div class="mb-4">
+            <label for="produce_type" class="block">Produce Type(s):</label>
+            <select id="produce_type" name="produce_type" class="select select-bordered w-full" multiple>
+            </select>
+          </div>
+
+          <div class="modal-action">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
+
+  </div>
+{% endblock %}

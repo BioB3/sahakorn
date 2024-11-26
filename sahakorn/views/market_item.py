@@ -3,7 +3,11 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.serializers import ModelSerializer
 from sahakorn.models import MarketItem
+from django.views import generic
 
+
+class MarketView(generic.TemplateView):
+    template_name = "sahakorn/market.html"
 
 class MarketItemSerializer(ModelSerializer):
     class Meta:

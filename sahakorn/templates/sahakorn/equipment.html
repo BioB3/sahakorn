@@ -1,0 +1,36 @@
+{% extends 'sahakorn/base.html' %}
+
+{% block headcontent %}
+<title>
+  Equipment borrowing
+</title>
+{% load static %}
+<script src="{% static 'sahakorn/equipment.js' %}" defer type="module"></script>
+{% endblock %}
+
+
+{% block content %}
+<div class="container p-4">
+
+
+  <button class="btn btn-primary" id="all-equipments">All Equipments</button>
+  <button class="btn btn-primary" id="lent-equipments">Lent Equipments</button>
+  <button class="btn btn-secondary" id="my-equipments">My Equipments</button>
+
+  <table class="table table-zebra w-full">
+    <thead>
+      <tr>
+        <th>Equipment</th>
+        <th>Status</th>
+        <th>Owner</th>
+        <th>Lent To</th>
+      </tr>
+    </thead>
+    <tbody id="equipments-table">
+
+    </tbody>
+  </table>
+
+</div>
+
+{% endblock %}

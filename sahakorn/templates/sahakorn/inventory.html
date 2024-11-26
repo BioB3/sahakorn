@@ -1,0 +1,26 @@
+{% extends 'sahakorn/base.html' %}
+
+{% block content %}
+<div class="container p-4">
+    <h2>My stock</h2>
+
+    <button class="btn btn-primary" id="all-equipments">Register items</button>
+    <button class="btn btn-primary" id="lent-equipments">TODO: use template to gen filter buttons</button>
+    <table class="table table-zebra w-full">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      {% if stock_items %}
+      <tbody id="Stock-table">
+      </tbody>
+      {% else %}
+    </table>
+    <div>You have no Stock! Register some items to fill your inventory.</div>
+    {% endif %}
+  
+  </div>
+{% endblock %}

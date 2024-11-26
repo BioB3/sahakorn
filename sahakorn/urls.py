@@ -1,13 +1,12 @@
 from django.urls import path
-from .views import SignupView, GetCSRFToken, CheckAuthenticatedView, LoginView, DeleteAccountView, LogoutView, GetUsersView
+from . import views
 
 app_name = "sahakorn"
 urlpatterns = [
-    path('register', SignupView.as_view()),
-    path('csrf_cookie', GetCSRFToken.as_view()),
-    path('authenticated', CheckAuthenticatedView.as_view()),
-    path('login', LoginView.as_view()),
-    path('logout', LogoutView.as_view()),
-    path('delete', DeleteAccountView.as_view()),
-    path('get_user', GetUsersView.as_view()),
+    path("", views.MemberListView.as_view(), name="index"),
+    path("equipment/", views.EquipmentView.as_view(), name="equipment"),
+    path("market/", views.MarketView.as_view(), name="market"),
+    path("finance/", views.FinanceView.as_view(), name="finance"),
+    path("inventory/", views.InventoryView.as_view(), name="inventory"),
+    path("profile/", views.ProfileView.as_view(), name="profile")
 ]

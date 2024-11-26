@@ -1,0 +1,76 @@
+{% extends "sahakorn/base.html" %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+  <!-- Page Title -->
+  <h1 class="text-3xl font-bold mb-6">Common Fee & Loans</h1>
+
+  <!-- Common Fee Payment Status -->
+  <div class="mb-6">
+    <h2 class="text-xl font-semibold">Common Fee Payment Status</h2>
+    <div class="alert alert-info shadow-lg mt-4">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m4 4h-1v-4h-1m4 4h-1v-4h-1"></path>
+        </svg>
+        <span>Your payment status: <span class="font-bold">Up to Date</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Number of Loans Taken -->
+  <div class="mb-6">
+    <h2 class="text-xl font-semibold">Loans Taken</h2>
+    <div class="alert alert-success shadow-lg mt-4">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span>You have taken out <span class="font-bold">3 loans</span>.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loans Table -->
+  <div>
+    <h2 class="text-xl font-semibold mb-4">Loans Details</h2>
+    <div class="overflow-x-auto">
+      <table class="table table-zebra w-full">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Due Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>1</th>
+            <td>Tractor</td>
+            <td>1</td>
+            <td>2024-12-01</td>
+            <td><span class="badge badge-success">Returned</span></td>
+          </tr>
+          <tr>
+            <th>2</th>
+            <td>Seeds</td>
+            <td>50</td>
+            <td>2024-12-15</td>
+            <td><span class="badge badge-warning">Pending</span></td>
+          </tr>
+          <tr>
+            <th>3</th>
+            <td>Plow</td>
+            <td>1</td>
+            <td>2024-11-30</td>
+            <td><span class="badge badge-error">Overdue</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
