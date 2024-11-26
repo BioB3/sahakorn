@@ -145,10 +145,8 @@ export const deleteAccount = () => async dispatch => {
     }
   };
 
-  const body = JSON.stringify({'withCredentials': true});
-
   try{
-      res = await axios.delete(`${import.meta.env.VITE_API_URL}/sahakorn/delete`, body, config);
+      res = await axios.delete(`${import.meta.env.VITE_API_URL}/sahakorn/delete`, config);
       if (res.data.success) {
         dispatch({
           type: DELETE_USER_SUCCESS

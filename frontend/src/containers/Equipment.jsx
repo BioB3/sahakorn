@@ -1,57 +1,51 @@
 import React, { useState, useEffect } from "react";
-import "tailwindcss/tailwind.css";
-import { connect } from "react-redux";
-import { loadEquipments } from "../actions/equipment";
 
-function EquipmentPage ({loadEquipments, equipment}) {
-  const [filter, setFilter] = useState("all"); // Filter state: "all", "lent", "mine"
+async function getUserName(userID) {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/member/${userID}/`);
+  const responseJSON = await response.json();
+  return responseJSON.name;
+}
+
+function EquipmentPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  useEffect(async () => {
-    await loadEquipments();
-  }, [loadEquipments]);
-  
-  console.log(equipment)
+  const [rows, setRows] = useState([]);
+  const [userNames, setUserNames] = useState({}); // To store resolved usernames
 
   const handleAddEquipment = (event) => {
-    // handling adding equipment.
-    // TODO: change to actual code instead of garbage that ChatGPT generated to me
+    // Placeholder for adding equipment
     event.preventDefault();
     setIsModalOpen(false); // Close modal after submission
   };
 
+  useEffect(() => {
+    loadEquipments();
+  }, []);
 
-  // return le actual page.
+  const loadEquipments = async () => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/equipment/`);
+    const equipments = await response.json();
+    setRows(equipments);
+
+    // Fetch usernames for all unique owner IDs
+    const uniqueUserIds = [...new Set(equipments.map((row) => row.owner))];
+    const names = {};
+    for (const userId of uniqueUserIds) {
+      names[userId] = await getUserName(userId);
+    }
+    setUserNames(names); // Save usernames in state
+  };
+
   return (
     <div className="container mx-auto p-5">
       <h1 className="text-3xl font-bold mb-6">Equipment Management</h1>
 
-      {/* Filter Buttons */}
-      <div className="flex items-center gap-2 mb-4">
-        <button
-          onClick={() => setFilter("all")}
-          className={`btn btn-sm ${filter === "all" ? "btn-primary" : "btn-outline"}`}
-        >
-          All Equipment
-        </button>
-        <button
-          onClick={() => setFilter("lent")}
-          className={`btn btn-sm ${filter === "lent" ? "btn-primary" : "btn-outline"}`}
-        >
-          Lent Equipment
-        </button>
-        <button
-          onClick={() => setFilter("mine")}
-          className={`btn btn-sm ${filter === "mine" ? "btn-primary" : "btn-outline"}`}
-        >
-          My Equipment
-        </button>
-
-        {/* Add Equipments Button */}
+      {/* Add Equipments Button */}
+      <div className="flex items-center mb-4">
         <button
           onClick={() => setIsModalOpen(true)}
-          className="btn btn-primary ml-auto"
+          className="btn btn-primary"
         >
-          Add Equipments
+          Add Equipment
         </button>
       </div>
 
@@ -67,14 +61,14 @@ function EquipmentPage ({loadEquipments, equipment}) {
             </tr>
           </thead>
           <tbody>
-            {/* {filteredEquipments.map((equipment, index) => (
+            {rows.map((row, index) => (
               <tr key={index}>
-                <td>{equipment.name}</td>
-                <td>{equipment.available ? "Yes" : "No"}</td>
-                <td>{equipment.owner}</td>
-                <td>{equipment.lentTo}</td>
+                <td>{row.name}</td>
+                <td>{row.available ? "Yes" : "No"}</td>
+                <td>{userNames[row.owner] || "Loading..."}</td>
+                <td>{row.lentTo || "None"}</td>
               </tr>
-            ))} */}
+            ))}
           </tbody>
         </table>
       </div>
@@ -121,11 +115,6 @@ function EquipmentPage ({loadEquipments, equipment}) {
       )}
     </div>
   );
-};
+}
 
-const mapStateToProps = state => ({
-  equipment: state.equipment
-})
-
-
-export default connect(mapStateToProps, {loadEquipments}) (EquipmentPage);
+export default EquipmentPage;
