@@ -1,16 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.contrib.auth.models import User
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_protect
+from rest_framework import permissions
 
 
-@method_decorator(csrf_protect, name="dispatch")
 class CheckAuthenticatedView(APIView):
-    def get(self, request, format=True):
-        is_authenticated = User.is_authenticated
+    permission_classes = (permissions.AllowAny, )
 
-        if is_authenticated:
+    def get(self, request, format=True):
+        user = self.request.user
+        if user.is_authenticated:
             return Response({"isAuthenticated": "success"})
         else:
             return Response({"isAuthenticated": "error"})

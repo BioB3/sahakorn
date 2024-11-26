@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { register } from '../actions/auth'
 import CSRFToken from '../components/CSRFToken'
 
-function ลงทะเบียน({ register }) {
+function ลงทะเบียน({ register, isAuthenticated }) {
   const [formData, setFormData] = ใช้สถานะ({
     username: '',
     password: '',
@@ -29,7 +29,9 @@ function ลงทะเบียน({ register }) {
     }
   };
 
-  if (accountCreated) {
+  if (isAuthenticated) {
+    navigate('/profile');
+  } else if (accountCreated) {
     navigate('/login');
   }
 
@@ -95,4 +97,8 @@ function ลงทะเบียน({ register }) {
   )
 }
 
-export default connect(null, { register })(ลงทะเบียน);
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToProps, { register })(ลงทะเบียน);

@@ -136,6 +136,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+CORS_ALLOW_CREDENTIALS = True
+
 REST_FRAMEWORK = {
     "DATETIME_FORMAT": "%Y-%m-%dT%H:%M:%S.%fZ",
     "DEFAULT_PERMISSION_CLASSES": [
@@ -145,3 +147,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication"
         ],
 }
+
+CSRF_TRUSTED_ORIGINS = config(
+    "CSRF_TRUSTED_ORIGINS", cast=Csv(), default="http://localhost:5173, http://127.0.0.1:5173"
+)

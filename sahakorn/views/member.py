@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.serializers import ModelSerializer
 from rest_framework.response import Response
-from django.contrib.auth.models import User
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from sahakorn.models import Member
 
 
@@ -16,11 +16,11 @@ class MemberViewSet(ModelViewSet):
 
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def retrieve(self, request, *args, **kwargs):
         user = self.request.user
         username = user.username
-        user = User.objects.get(id=user.id)
         member = Member.objects.get(user=user)
         member = MemberSerializer(member)
         return Response({"profile": member.data, "username": str(username)})
@@ -31,8 +31,17 @@ class MemberViewSet(ModelViewSet):
         data = self.request.data
         name = data["name"]
         tags = data["produce_type"]
-        user = User.objects.get(id=user.id)
         Member.objects.filter(user=user).update(name=name)
         member = Member.objects.get(user=user)
         member = MemberSerializer(member)
         return Response({"profile": member.data, "username": str(username)})
+
+    def update(self, request, *args, **kwargs):
+        user = self.request.user
+        username = user.username
+        member = Member.objects.get(user=user)
+        serializer = MemberSerializer(member, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"profile": serializer.data, "username": str(username)})
+        return Response({"error": serializer.errors})
