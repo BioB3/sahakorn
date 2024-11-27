@@ -16,17 +16,17 @@
     <p class="text-xl mb-4"><strong>Displayed Name: </strong><span id="profileName">{{ profile.name }}</span></p>
 
     <p class="text-xl mb-4"><strong>Produce Type(s):</strong>
-      {% if profile.produce_type.all %}
-        <div class="flex flex-wrap gap-4 mt-4">
-          {% for produce in profile.produce_type.all %}
-            <div class="badge" style="background-color: {{ produce.color }}; color: white; padding: 10px 15px; border-radius: 12px;">
-              {{ produce.name }}
-            </div>
-          {% endfor %}
-        </div>
-      {% else %}
-        <p>No produce type assigned.</p>
-      {% endif %}
+      <div class="flex flex-wrap gap-4 mt-4">
+        {% if profile.produce_type.all %}
+        {% for produce in profile.produce_type.all %}
+          <div class="badge" style="background-color: {{ produce.color }}; color: white; padding: 10px 15px; border-radius: 12px;">
+            {{ produce.name }}
+          </div>
+        {% endfor %}
+        {% else %}
+          <p>No produce type assigned.</p>
+        {% endif %}
+      </div>
     </p>
 
     <button class="btn btn-primary mt-6" onclick="profileModal.showModal()">Update Profile</button>

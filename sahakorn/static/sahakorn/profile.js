@@ -37,17 +37,23 @@ document.addEventListener("DOMContentLoaded", async () => {
       profileName.textContent = result.profile.name;
       const produceContainer = document.querySelector('.flex');
       produceContainer.innerHTML = '';
-      result.profile.produce_type.forEach(id => {
-        const badge = document.createElement('div');
-        const tag = produceTypeData.find(tag => tag.id === id)
-        badge.className = 'badge';
-        badge.style.backgroundColor = tag.color;
-        badge.style.color = 'white';
-        badge.style.padding = '10px 15px';
-        badge.style.borderRadius = '12px';
-        badge.textContent = tag.name;
-        produceContainer.appendChild(badge);
-      });
+      if (result.profile.produce_type.length > 0) {
+        result.profile.produce_type.forEach(entry => {
+          const badge = document.createElement('div');
+          const tag = produceTypeData.find(tag => tag.id === entry.id)
+          badge.className = 'badge';
+          badge.style.backgroundColor = tag.color;
+          badge.style.color = 'white';
+          badge.style.padding = '10px 15px';
+          badge.style.borderRadius = '12px';
+          badge.textContent = tag.name;
+          produceContainer.appendChild(badge);
+        });
+      } else {
+        const p = document.createElement('p');
+        p.textContent = 'No produce type assigned.';
+        produceContainer.appendChild(p);
+      }
     } else {
       alert('Error updating profile.');
     }

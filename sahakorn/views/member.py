@@ -4,7 +4,8 @@ from django.views.generic import ListView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.serializers import ModelSerializer
 from rest_framework.response import Response
-from sahakorn.models import Member
+from sahakorn.models import Member, ProducerType
+from .producer_type import ProducerTypeSerializer
 
 
 class MemberListView(ListView):
@@ -16,6 +17,8 @@ class MemberListView(ListView):
 
 
 class MemberSerializer(ModelSerializer):
+    produce_type = ProducerTypeSerializer(many=True, read_only=True)
+
     class Meta:
         model = Member
         fields = "__all__"
@@ -32,7 +35,6 @@ class MemberViewSet(ModelViewSet):
         username = user.username
         data = self.request.data
         name = data["name"]
-        tags = data["produce_type"]
         Member.objects.filter(user=user).update(name=name)
         member = Member.objects.get(user=user)
         member = MemberSerializer(member)
@@ -44,6 +46,10 @@ class MemberViewSet(ModelViewSet):
         member = Member.objects.get(user=user)
         serializer = MemberSerializer(member, data=request.data, partial=True)
         if serializer.is_valid():
-            serializer.save()
+            updated = serializer.save()
+            updated.produce_type.clear()
+            for tag_id in request.data.get('produce_type'):
+                tag = ProducerType.objects.get(id=tag_id)
+                updated.produce_type.add(tag)
             return Response({"profile": serializer.data, "username": str(username)})
         return Response({"error": serializer.errors})
