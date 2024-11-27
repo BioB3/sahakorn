@@ -1,5 +1,11 @@
 {% extends 'sahakorn/base.html' %}
 
+{% block headcontent %}
+{% load static %}
+<script src="{% static 'sahakorn/market.js' %}" defer type="module"></script>
+{% endblock %}
+
+
 {% block content %}
 
 <div id="filter">

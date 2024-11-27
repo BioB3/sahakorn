@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from .stock import Stock
-from .item_type import ItemType
 
 
 class MarketItem(models.Model):
@@ -9,7 +8,6 @@ class MarketItem(models.Model):
 
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     quantity = models.IntegerField(validators=[MinValueValidator(0)])
-    item_type = models.ManyToManyField(ItemType)
     price = models.IntegerField(validators=[MinValueValidator(0)])
 
     @property
