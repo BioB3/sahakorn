@@ -17,5 +17,5 @@ class LoansViewSet(ModelViewSet):
     def get_queryset(self):
         member = self.request.query_params.get("member")
         if member is not None:
-            return Loans.objects.filter(member__user=self.request.user)
-        return Loans.objects.all()
+            return Loans.objects.filter(member__user=self.request.user).order_by("-loan_date")
+        return Loans.objects.all().order_by("-loan_date")

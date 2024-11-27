@@ -21,7 +21,7 @@ class CommonFeeViewSet(ModelViewSet):
 
     @action(detail=False, methods=["get"])
     def payment_status(self, request):
-        queryset = CommonFee.objects.filter(member__user=self.request.user)
+        queryset = CommonFee.objects.filter(member__user=request.user)
         if not queryset:
             return Response({"payment_status": "Up to Date"}, status=status.HTTP_200_OK)
         q = queryset.last()
