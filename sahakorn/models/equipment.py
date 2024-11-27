@@ -11,3 +11,7 @@ class Equipment(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name} of {self.owner}"
+
+    @property
+    def owner_name(self):
+        return self.owner.name

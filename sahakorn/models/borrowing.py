@@ -24,3 +24,7 @@ class Borrowing(models.Model):
         return (
             f"{self.user} borrows {self.equipment} from {self.s_date} to {self.r_date}"
         )
+
+    @property
+    def borrower_name(self):
+        return self.user.name

@@ -6,6 +6,7 @@
 </title>
 {% load static %}
 <script src="{% static 'sahakorn/equipment.js' %}" defer type="module"></script>
+{{ request.user.id|json_script:"user_id" }}
 {% endblock %}
 
 
@@ -30,6 +31,25 @@
 
     </tbody>
   </table>
+
+  <dialog id="borrowModal" class="modal">
+    <div class="modal-box">
+      <h2 class="text-xl font-bold">Borrow</h2>
+      <form id="borrowForm">
+        <div class="mb-4">
+          <label for="r_date" class="block">Borrow till:</label>
+          <input type="date" id="r_date" name="r_date" class="input input-bordered w-full">
+        </div>
+
+        <div class="modal-action">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
 
 </div>
 
