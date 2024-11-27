@@ -12,5 +12,10 @@ class LoansSerializer(ModelSerializer):
 class LoansViewSet(ModelViewSet):
     """A viewset for Loans model."""
 
-    queryset = Loans.objects.all()
     serializer_class = LoansSerializer
+
+    def get_queryset(self):
+        member = self.request.query_params.get("member")
+        if member is not None:
+            return Loans.objects.filter(member__user=self.request.user)
+        return Loans.objects.all()

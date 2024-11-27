@@ -14,7 +14,7 @@ from sahakorn.views import (
 
 router = DefaultRouter()
 router.register(r"borrowing", BorrowingViewSet, basename="borrowing")
-router.register(r"commonfee", CommonFeeViewSet, basename="commonfee")
+router.register(r"common_fee", CommonFeeViewSet, basename="common_fee")
 router.register(r"equipment", EquipmentViewSet, basename="equipment")
 router.register(r"item_type", ItemTypeViewSet, basename="item_type")
 router.register(r"loans", LoansViewSet, basename="loans")
