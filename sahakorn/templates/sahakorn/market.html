@@ -13,19 +13,11 @@
     <h1 class="text-3xl font-bold mb-6">Co-op Market</h1>
 
     <!-- Filter Buttons -->
-    <div class="mb-4 flex space-x-4">
+    <div class="mb-4 flex space-x-4" id="filter-buttons">
       <button class="btn btn-primary">
         All Items
       </button>
-      <button class="btn btn-secondary">
-        Fruits
-      </button>
-      <button class="btn btn-secondary">
-        Vegetables
-      </button>
-      <button class="btn btn-secondary">
-        Grains
-      </button>
+
     </div>
 
     <!-- Item List -->
@@ -35,12 +27,13 @@
           <tr>
             <th>Item</th>
             <th>Type</th>
+            <th>Producer</th>
             <th>Quantity</th>
             <th>Price</th>
             <th>Action</th>
           </tr>
         </thead>
-        <tbody id="market-items">
+        <tbody id="market-table">
           <!-- Items will be populated dynamically -->
         </tbody>
       </table>
