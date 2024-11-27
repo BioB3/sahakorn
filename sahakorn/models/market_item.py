@@ -13,7 +13,7 @@ class MarketItem(models.Model):
     @property
     def p_name(self) -> str:
         """Get product name."""
-        return self.stock.name
+        return self.stock.p_name
 
     @property
     def member(self) -> str:

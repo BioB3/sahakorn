@@ -1,11 +1,12 @@
-import {universalFetcher} from './utils.js'
+import {universalFetcher, getToday} from './utils.js'
 
 const allEquipments = document.getElementById('all-equipments')
 const lentEquipments = document.getElementById('lent-equipments')
 const myEquipments = document.getElementById('my-equipments')
 const equipmentsTable = document.getElementById('equipments-table')
-const borrowModal = document.getElementById('borrowModal');
 const borrowForm = document.getElementById('borrowForm');
+const addForm = document.getElementById('addForm');
+const userID = JSON.parse(document.getElementById('user_id').textContent);
 let equipmentID = 0;
 
 
@@ -18,13 +19,6 @@ function bindButton() {
   })
 }
 
-function getToday() {
-  let today = new Date();
-  const offset = today.getTimezoneOffset();
-  today = new Date(today.getTime() - (offset*60*1000))
-  return today.toISOString().split('T')[0]
-}
-
 async function generateRowsFromBorrowing(borrowings) {
   for(let borrowing of borrowings) {
     const row = document.createElement('tr')
@@ -32,7 +26,7 @@ async function generateRowsFromBorrowing(borrowings) {
 
     row.innerHTML = `
       <td>${equipment.name}</td>
-      <td>Someone's Borrowing</td>
+      <td>${equipment.equipment_type}</td>
       <td>${equipment.owner_name}</td>
       <td>
         Lent to ${borrowing.borrower_name} from ${borrowing.s_date} to ${borrowing.r_date}
@@ -49,7 +43,7 @@ async function generateRowsFromEquipments(equipments) {
     if(borrow.length === 0) {
       row.innerHTML = `
         <td>${equipment.name}</td>
-        <td>Free to Borrow</td>
+        <td>${equipment.equipment_type}</td>
         <td>${equipment.owner_name}</td>
         <td>
           <button id=${equipment.id} class="borrow-btn btn btn-accent btn-sm" onclick="borrowModal.showModal()">
@@ -61,7 +55,7 @@ async function generateRowsFromEquipments(equipments) {
           const currentBorrow = borrow[0];
           row.innerHTML = `
           <td>${equipment.name}</td>
-          <td>Someone's Borrowing</td>
+          <td>${equipment.equipment_type}</td>
           <td>${equipment.owner_name}</td>
           <td>Lent to ${currentBorrow.borrower_name} from ${currentBorrow.s_date} to ${currentBorrow.r_date}</td>`
           
@@ -99,7 +93,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   borrowForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const userID = JSON.parse(document.getElementById('user_id').textContent);
     const formData = new FormData(borrowForm);
     const data = {
       'equipment': equipmentID,
@@ -121,7 +114,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (response.ok) {
       location.reload();
     } else {
-      alert('Error updating profile.');
+      alert('Error borrowing.');
+    }
+  });
+
+  addForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(addForm);
+    const data = {
+      'name': formData.get('name'),
+      'equipment_type': formData.get('equipment-type'),
+      'owner': userID
+    };
+
+    const response = await fetch('/api/equipment/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': Cookies.get('csrftoken')
+      },
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      location.reload();
+    } else {
+      alert('Error registering equipment.');
     }
   });
 })

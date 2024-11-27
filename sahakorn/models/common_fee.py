@@ -15,7 +15,7 @@ class CommonFee(models.Model):
     )
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
     total_paid = models.FloatField(validators=[MinValueValidator(0)])
-    total_due = models.FloatField(validators=[MinValueValidator(0)])
+    total_due = models.FloatField(validators=[MinValueValidator(0)], default=100)
 
     def get_month(self) -> str:
         """Get the actual month name from month field, which is from 1-12."""

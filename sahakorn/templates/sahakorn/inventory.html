@@ -1,26 +1,97 @@
 {% extends 'sahakorn/base.html' %}
 
-{% block content %}
-<div class="container mx-auto p-4">
-    <h1 class="text-3xl font-bold mb-6">My stock</h1>
+{% block headcontent %}
+<title>
+  inventory | Sahakorn
+</title>
+{% load static %}
+<script src="{% static 'sahakorn/inventory.js' %}" defer type="module"></script>
+{{ request.user.id|json_script:"user_id" }}
+{% endblock %}
 
-    <button class="btn btn-primary my-3" id="add-item">Register items</button>
-    <button class="btn btn-primary my-3" id="lent-equipments">TODO: use template to gen filter buttons</button>
-    <table class="table table-zebra w-full">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Quantity</th>
-          <th>Type</th>
-        </tr>
-      </thead>
+
+{% block content %}
+<div>
+  <div class="container mx-auto p-5">
+    <h1 class="text-3xl font-bold mb-6">My stock</h1>
+    <div class="mb-4 flex space-x-4" id="filter-buttons">
+      <button class="btn btn-secondary" id="add-item" onclick="addModal.showModal()">Register items</button>
+      <select name="filter" id="filter" class="select select-bordered w-full">
+      <option selected value>ALL TYPES</option>
+      </select>
+    </div>
+    <div class="overflow-x-auto">
       {% if stock_items %}
-      <tbody id="Stock-table">
-      </tbody>
+      <table class="table table-zebra w-full">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Type</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="Stock-table">
+        </tbody>
+      </table>
       {% else %}
-    </table>
-    <div>You have no Stock! Register some items to fill your inventory.</div>
-    {% endif %}
-  
+      <div>You have no Stock! Register some items to fill your inventory.</div>
+      {% endif %} 
+    </div>
   </div>
+</div>
+
+<dialog id="addModal" class="modal">
+  <div class="modal-box">
+    <h2 class="text-xl font-bold">Add Stock</h2>
+    <form id="addForm">
+      <div class="mb-4">
+        <label for="name" class="block">Stock name:</label>
+        <input type="text" id="name" name="name" class="input input-bordered w-full">
+      </div>
+
+      <div class="mb-4">
+        <label for="quantity" class="block">Quantity:</label>
+        <input type="text" id="quantity" name="quantity" class="input input-bordered w-full">
+      </div>
+
+      <div class="mb-4">
+        <label for="stock-type" class="block">Stock Type(s):</label>
+        <select id="stock-type" name="stock-type" class="select select-bordered w-full" multiple>
+        </select>
+      </div>
+
+      <div class="modal-action">
+        <button type="submit" class="btn btn-primary">Add to inventory</button>
+      </div>
+    </form>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
+
+<dialog id="sellModal" class="modal">
+  <div class="modal-box">
+    <h2 class="text-xl font-bold">Sell</h2>
+    <form id="sellForm">
+      <div class="mb-4">
+        <label for="quantity" class="block">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" class="input input-bordered w-full">
+      </div>
+
+      <div class="mb-4">
+        <label for="price" class="block">Price:</label>
+        <input type="number" id="price" name="price" class="input input-bordered w-full">
+      </div>
+
+      <div class="modal-action">
+        <button type="submit" id="buy-btn" class="btn btn-primary">Put on Sale</button>
+      </div>
+    </form>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
 {% endblock %}
