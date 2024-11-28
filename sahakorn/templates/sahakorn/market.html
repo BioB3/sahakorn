@@ -1,0 +1,74 @@
+{% extends 'sahakorn/base.html' %}
+
+{% block headcontent %}
+{% load static %}
+<script src="{% static 'sahakorn/market.js' %}" defer type="module"></script>
+{{ request.user.id|json_script:"user_id" }}
+{% endblock %}
+
+
+{% block content %}
+
+<div>
+  <div class="container mx-auto p-5">
+    <h1 class="text-3xl font-bold mb-6">Co-op Market</h1>
+
+    <!-- Filter Buttons -->
+    <div class="mb-4 flex space-x-4" id="filter-buttons">
+      <button class="btn btn-primary">
+        All Items
+      </button>
+
+      <select name="filter" id="filter" class="select select-bordered w-full">
+        <option selected value>ALL TYPES</option>
+      </select>
+
+      <select name="sort" id="sort" class="select select-bordered w-full">
+        <option disabled selected value>- Sort Price By -</option>
+        <option>LOW => HIGH</option>
+        <option>HIGH => LOW</option>
+      </select>
+
+
+    </div>
+
+    <!-- Item List -->
+    <div class="overflow-x-auto">
+      <table class="table table-zebra w-full">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Type</th>
+            <th>Producer</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="market-table">
+          <!-- Items will be populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<dialog id="buyModal" class="modal">
+  <div class="modal-box">
+    <h2 class="text-xl font-bold">Transaction</h2>
+    <form id="buyForm">
+      <div class="mb-4">
+        <label for="quantity" class="block">Quantity:</label>
+        <input type="text" id="quantity" name="quantity" class="input input-bordered w-full">
+      </div>
+
+      <div class="modal-action">
+        <button type="submit" id="buy-btn" class="btn btn-primary">Buy</button>
+      </div>
+    </form>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
+
+{% endblock %}

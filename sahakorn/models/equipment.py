@@ -10,4 +10,8 @@ class Equipment(models.Model):
     equipment_type = models.CharField(max_length=100)
 
     def __str__(self) -> str:
-        return f"{self.name} of {self.member}"
+        return f"{self.name} of {self.owner}"
+
+    @property
+    def owner_name(self):
+        return self.owner.name

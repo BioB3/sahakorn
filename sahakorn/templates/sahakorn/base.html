@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="cyberpunk">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js" defer></script>
+    {% load static %}
+    {% block headcontent %}
+    {% endblock %}
+  </head>
+  <body>
+    <div class="navbar bg-base-100">
+      <div class="flex-1">
+        <a class="btn btn-ghost text-xl" href="{% url 'sahakorn:index' %}">Sahakorn</a>
+      </div>
+      <div class="flex-none gap-2">
+        {% if not user.is_authenticated %}
+          <ul class="menu menu-horizontal px-1">
+            <li><a href="{% url 'login' %}?next={{request.path}}" class="button auth-button">
+                Login
+            </a></li>
+            <li><a href="{% url 'signup' %}?next={{request.path}}" class="button auth-button">
+                Sign-up
+            </a></li>
+          </ul>
+      {% else %}
+        <ul class="menu menu-horizontal px-1">
+          <li><a href="{% url 'sahakorn:market' %}" class="button auth-button">
+            Market
+          </a></li>
+          <li><a href="{% url 'sahakorn:transaction' %}" class="button auth-button">
+            Transactions
+          </a></li>
+          <li><a href="{% url 'sahakorn:inventory' %}" class="button auth-button">
+            Inventory
+          </a></li>
+          <li><a href="{% url 'sahakorn:finance' %}" class="button auth-button">
+            Finance
+          </a></li>
+          <li><a href="{% url 'sahakorn:equipment' %}" class="button auth-button">
+            Equipment
+          </a></li>
+        </ul>
+
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+            <div class="w-10 rounded-full">
+              <img alt="Profile Pic" src="{% static 'sahakorn/images/image.png' %}">
+            </div>
+          </div>
+          <ul
+            tabindex="0"
+            class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+            <li>
+              <p>{{ user.username }}<p>
+            </li>
+            <li>
+              <a class="justify-between" href="{% url 'sahakorn:profile' %}">
+                Profile
+              </a>
+            </li>
+            <li>
+              <form action="{% url 'logout' %}" method="post" class="header-container"> 
+                {% csrf_token %}
+                <button type="submit" class="button auth-button">Log Out</button> 
+              </form>
+            </li>
+          </ul>
+        </div>
+      {% endif %}
+      </div>
+    </div>
+  
+    {% if messages %}
+      <ul class="messages">
+      {% for message in messages %}
+        <li class="{{message.tags}} center-text">
+          {{message}}
+        </li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  
+    <div>
+      {% block content %}
+      {% endblock %}
+    </div>
+  </body>
+</html>

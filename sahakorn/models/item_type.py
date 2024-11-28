@@ -6,3 +6,6 @@ class ItemType(models.Model):
 
     name = models.CharField(max_length=300)
     color = models.CharField(max_length=30)
+
+    def __str__(self) -> str:
+        return self.name

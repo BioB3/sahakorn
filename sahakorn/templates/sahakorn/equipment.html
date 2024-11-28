@@ -1,0 +1,81 @@
+{% extends 'sahakorn/base.html' %}
+
+{% block headcontent %}
+<title>
+  Equipment Borrowing | Sahakorn
+</title>
+{% load static %}
+<script src="{% static 'sahakorn/equipment.js' %}" defer type="module"></script>
+{{ request.user.id|json_script:"user_id" }}
+{% endblock %}
+
+
+{% block content %}
+<div class="container p-4">
+
+
+  <button class="btn btn-primary" id="all-equipments">All Equipments</button>
+  <button class="btn btn-primary" id="lent-equipments">Lent Equipments</button>
+  <button class="btn btn-secondary" id="my-equipments">My Equipments</button>
+  <button class="btn btn-secondary" id="register-equipment" onclick="addModal.showModal()">Register Equipment</button>
+
+  <table class="table table-zebra w-full">
+    <thead>
+      <tr>
+        <th>Equipment</th>
+        <th>Type</th>
+        <th>Owner</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="equipments-table">
+
+    </tbody>
+  </table>
+
+  <dialog id="borrowModal" class="modal">
+    <div class="modal-box">
+      <h2 class="text-xl font-bold">Borrow</h2>
+      <form id="borrowForm">
+        <div class="mb-4">
+          <label for="r_date" class="block">Borrow till:</label>
+          <input type="date" id="r_date" name="r_date" class="input input-bordered w-full">
+        </div>
+
+        <div class="modal-action">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+
+  <dialog id="addModal" class="modal">
+    <div class="modal-box">
+      <h2 class="text-xl font-bold">Add Equipment</h2>
+      <form id="addForm">
+        <div class="mb-4">
+          <label for="name" class="block">Equipment name:</label>
+          <input type="text" id="name" name="name" class="input input-bordered w-full">
+        </div>
+
+        <div class="mb-4">
+          <label for="equipment-type" class="block">Equipment type:</label>
+          <input type="text" id="equipment-type" name="equipment-type" class="input input-bordered w-full">
+        </div>
+
+        <div class="modal-action">
+          <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+      </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+
+</div>
+
+{% endblock %}

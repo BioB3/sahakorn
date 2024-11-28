@@ -19,7 +19,7 @@ class Loans(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
     amount = models.FloatField(validators=[MinValueValidator(0)])
     loan_date = models.DateField()
-    paid = models.FloatField(validators=[MinValueValidator(0)])
+    paid = models.FloatField(validators=[MinValueValidator(0)], default=0)
 
     def __str__(self):
         return f"Loan of {self.member} from {self.loan_date}"

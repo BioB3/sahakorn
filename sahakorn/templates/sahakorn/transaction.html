@@ -1,0 +1,53 @@
+{% extends 'sahakorn/base.html' %}
+
+{% block headcontent %}
+{% load static %}
+<script src="{% static 'sahakorn/transaction.js' %}" defer type="module"></script>
+{{ request.user.id|json_script:"user_id" }}
+{% endblock %}
+
+
+{% block content %}
+
+<div>
+  <div class="container mx-auto p-5">
+    <h1 class="text-3xl font-bold mb-6">My Transactions</h1>
+
+    <!-- Filter Buttons -->
+    <div class="mb-4 flex space-x-4" id="filter-buttons">
+
+      <select name="filter" id="filter" class="select select-bordered w-full">
+        <option selected value>ALL TYPES</option>
+      </select>
+
+      <select name="sort" id="sort" class="select select-bordered w-full">
+        <option disabled selected value>- Sort Transaction By -</option>
+        <option>LOW => HIGH</option>
+        <option>HIGH => LOW</option>
+      </select>
+
+
+    </div>
+
+    <!-- Item List -->
+    <div class="overflow-x-auto">
+      <table class="table table-zebra w-full">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Type</th>
+            <th>Producer</th>
+            <th>Quantity</th>
+            <th>Total paid</th>
+            <th>Date issued</th>
+          </tr>
+        </thead>
+        <tbody id="transaction-table">
+          <!-- Items will be populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

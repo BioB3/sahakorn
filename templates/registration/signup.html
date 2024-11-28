@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Sign-Up</title>
+  </head>
+
+<div class="auth">
+  <div class="form">
+    <form class="auth-form" method="post">
+      {% csrf_token %}
+        {% if form.non_field_errors %}
+          {% for error in form.non_field_errors %}
+            <div style="color: red;">{{ error }}</div>
+          {% endfor %}
+        {% endif %}
+
+        {% for field in form %}
+          <div style="color: red;">{{ field.errors }}</div>
+        {% endfor %}
+
+      <div class="input">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+      </div>
+
+      <div class="input">
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}
+      </div>
+
+      <div class="input">
+        {{ form.password2.label_tag }}
+        {{ form.password2}}
+      </div>
+      <button type="submit">Sign-Up</button>
+    </form>
+    <a href="{% url 'login' %}?next={{request.GET.next}}">
+      <button style="background-color: blueviolet;">Already have an account?</button>
+    </a>
+  </div>
+</div>
+
+</html>

@@ -1,0 +1,13 @@
+{% extends 'sahakorn/base.html' %}
+
+
+{% block content %}
+
+<div class="container p-4">
+  <h1>Sahakorn members</h1>
+  {% for member in members %}
+  {{member.name}} <br>
+  {% endfor %}
+</div>
+
+{% endblock %}

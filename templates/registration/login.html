@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <title>Login</title>
+</head>
+
+<div class="auth">
+  <div class="form">
+    {% if form.non_field_errors %}
+    <ul class='form-errors' style="list-style: none;">
+        {% for error in form.non_field_errors %}
+            <li style="color: red;">{{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form class="auth-form" method="post">
+      {% csrf_token %}
+      <div class="input">
+        {{ form.username.label_tag }}
+        {{ form.username}}
+      </div>
+
+      <div class="input">
+        {{ form.password.label_tag }}
+        {{ form.password  }}
+      </div>
+      <button type="submit">Login</button>
+      <input type="hidden" name="next" value="{{next}}"/>
+    </form>
+    <a href="{% url 'signup' %}?next={{next}}">
+      <button style="background-color:blue;">Sign-up</button>
+    </a>
+  </div>
+</div>
+
+</html>
