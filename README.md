@@ -1,6 +1,11 @@
 # sahakorn
 Database Systems 2024 Course Project
 
+## Prerequisites
+- python 3.11 or newer
+- MySQL client
+- git (optional)
+
 ## How to install and setup
 1. Clone the repository or download the zip file
     - If you clone use `git clone https://github.com/BioB3/sahakorn.git` and make sure you have git installed
@@ -9,6 +14,7 @@ Database Systems 2024 Course Project
 2. Install MySQL client here: https://dev.mysql.com/downloads/mysql/
    - Follow the installation wizard
    - save your database credentials
+   - If you already have MySQL client set up a new database
 <br>
 
 3. Use `mysql -u {username} -p {database_name} < sahakorn.sql` to load the data
@@ -24,4 +30,5 @@ Database Systems 2024 Course Project
     - DEBUG = True
 
 ## How to run
-use `python manage.py runserver` (replace python with your OS equivalent)
+1. use `python manage.py runserver` (replace python with your OS equivalent)
+2. Go to http://127.0.0.1:8000/
